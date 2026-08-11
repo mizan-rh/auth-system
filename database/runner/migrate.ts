@@ -82,16 +82,29 @@ function validateAppliedMigrations(
     AppliedMigration
   >,
 ): void {
-  const migrationVersions = new Set(
-    migrations.map(
-      (migration) => migration.version,
-    ),
+  const migrationMap = new Map(
+    migrations.map((migration) => [
+      migration.version,
+      migration,
+    ]),
   );
 
   for (const applied of appliedMigrations.values()) {
-    if (!migrationVersions.has(applied.version)) {
+    const migration = migrationMap.get(
+      applied.version,
+    );
+
+    if (!migration) {
       throw new Error(
         `Migration file is missing for applied migration: ${applied.version}`,
+      );
+    }
+
+    if (migration.name !== applied.name) {
+      throw new Error(
+        `Migration ${applied.version} name mismatch.\n` +
+        `Applied: ${applied.name}\n` +
+        `Current: ${migration.name}`,
       );
     }
   }
