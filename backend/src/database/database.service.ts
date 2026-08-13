@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Pool } from 'pg';
+import { Pool, QueryResult, QueryResultRow } from 'pg';
 
 @Injectable()
 export class DatabaseService implements OnModuleDestroy {
@@ -17,11 +17,12 @@ export class DatabaseService implements OnModuleDestroy {
       connectionString: databaseUrl,
     });
   }
-  //test
-  async testConnection(): Promise<boolean> {
-    const result = await this.pool.query('SELECT 1');
 
-    return result.rowCount === 1;
+  async query<T extends QueryResultRow>(
+    text: string,
+    values?: unknown[],
+  ): Promise<QueryResult<T>> {
+    return this.pool.query<T>(text, values);
   }
 
   async onModuleDestroy(): Promise<void> {
