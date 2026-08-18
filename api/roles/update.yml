@@ -1,0 +1,18 @@
+info:
+  name: update
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/roles/1a44144f-3ea0-4ef1-942a-4582aabfd19a"
+  body:
+    type: json
+    data: '{"name": "ADMIN"}'
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

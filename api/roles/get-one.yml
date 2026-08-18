@@ -1,0 +1,15 @@
+info:
+  name: get-one
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{baseUrl}}/roles/19522244-d558-4554-9241-6f43dd309074"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
